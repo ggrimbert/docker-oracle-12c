@@ -46,6 +46,9 @@ case "$1" in
 			su oracle -c 'echo -e "0Racle$\n8080" | $ORACLE_HOME/bin/sqlplus -S / as sysdba @apxconf > /dev/null'
 			su oracle -c 'echo -e "${ORACLE_HOME}\n\n" | $ORACLE_HOME/bin/sqlplus -S / as sysdba @apex_epg_config_core.sql > /dev/null'
 			su oracle -c 'echo -e "ALTER USER ANONYMOUS ACCOUNT UNLOCK;" | $ORACLE_HOME/bin/sqlplus -S / as sysdba > /dev/null'
+			su oracle -c 'echo -e "CREATE USER sequelize IDENTIFIED BY sequelize;" | $ORACLE_HOME/bin/sqlplus -S / as sysdba > /dev/null'
+			su oracle -c 'echo -e "GRANT CONNECT,DBA TO sequelize;" | $ORACLE_HOME/bin/sqlplus -S / as sysdba > /dev/null'
+			su oracle -c 'echo -e "GRANT EXECUTE ON dbms_lock TO sequelize;" | $ORACLE_HOME/bin/sqlplus -S / as sysdba > /dev/null'
 			echo "Database initialized. Please visit http://#containeer:8080/em http://#containeer:8080/apex for extra configuration if needed"
 		fi
 
