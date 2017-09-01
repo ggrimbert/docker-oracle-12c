@@ -8,10 +8,16 @@ ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/u01/app/o
 
 ADD entrypoint.sh /entrypoint.sh
 
+RUN echo "deb http://de.archive.ubuntu.com/ubuntu xenial main restricted universe multiverse" >> /etc/apt/sources.list
+RUN apt-get update && apt-get install -y wget && apt-get clean && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* 
+
+# add sample data
+RUN sh -c "wget 'https://s3.amazonaws.com/sequelize/data.tar.gz' && \
+    sudo tar xf data.tar.gz -C /u01/app/oracle && \
+    sudo chmod -R +rw /u01/app/oracle"
 
 EXPOSE 1521
 EXPOSE 5500
-VOLUME ["/u01/app/oracle"]
 VOLUME ["/docker-entrypoint-initdb.d"]
 
 ENTRYPOINT ["/entrypoint.sh"]
