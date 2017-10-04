@@ -22,7 +22,8 @@ case "$1" in
 			ln -s /u01/app/oracle/dbs /u01/app/oracle-product/12.1.0/xe/dbs
 			#Startup Database
 			su oracle -c "/u01/app/oracle/product/12.1.0/xe/bin/tnslsnr &"
-			su oracle -c 'echo startup\; | $ORACLE_HOME/bin/sqlplus -S / as sysdba'
+			su oracle -c 'echo startup mount\; | $ORACLE_HOME/bin/sqlplus -S / as sysdba'
+			su oracle -c 'echo alter database open\; | $ORACLE_HOME/bin/sqlplus -S / as sysdba'
 		else
 			echo "Database not initialized. Initializing database."
 			export IMPORT_FROM_VOLUME=true
